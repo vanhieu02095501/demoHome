@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <!-- Bootstrap 4 từ WebJars -->
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.2/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.6.2/js/bootstrap.bundle.min.js}"></script>
+
+</head>
+<body>
+<div class="container-fluid text-center">
+    <h1 class="btn-outline-primary">Welcome to my aplicationn</h1>
+    <a class="btn btn-primary btn-lg shadow-sm" th:href="@{/users}">
+        <i class="bi bi-people"></i> Manage Users
+    </a>
+
+</div>
+
+</body>
+</html>

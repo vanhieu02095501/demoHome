@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.2/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.6.2/js/bootstrap.bundle.min.js}"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="text-center">
+        <h2 class="btn-outline-primary">Add New User</h2>
+    </div>
+
+    <form th:action="@{/confirm}" method="post" th:object="${user}"
+          class="mx-auto p-4 border border-secondary rounded shadow-sm bg-light" style="max-width: 600px;">
+
+        <h2 class="text-center text-primary mb-4">User Form</h2>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Email:</label>
+            <input type="email" th:field="*{email}" class="form-control"
+                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" placeholder="Enter email" required minlength="8" maxlength="45" >
+            <div class="invalid-feedback" th:errors="*{email}"></div>
+        </div>
+
+        <!-- First Name -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">First Name:</label>
+            <input type="text" th:field="*{firstName}" class="form-control"
+                   th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid' : ''" placeholder="Enter first name" required minlength="2" maxlength="45" >
+            <div class="invalid-feedback" th:errors="*{firstName}"></div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Last Name:</label>
+            <input type="text" th:field="*{lastName}" class="form-control"
+                   th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid' : ''" placeholder="Enter last name" required minlength="2" maxlength="45" >
+            <div class="invalid-feedback" th:errors="*{lastName}"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Password:</label>
+            <input type="password" th:field="*{password}" class="form-control"
+                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" placeholder="Enter password" >
+            <div class="invalid-feedback" th:errors="*{password}"></div>
+        </div>
+
+        <!-- Enable Checkbox -->
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" th:field="*{enabled}">
+            <label class="form-check-label">Enable</label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4">Save</button>
+            <a class="btn btn-secondary" th:href="@{/users}">Cancel</a>
+        </div>
+
+    </form>
+
+
+
+
+
+
+
+    <!-- Kiểm tra nếu có message thì hiển thị modal -->
+
+</div>
+
+</body>
+</html>
