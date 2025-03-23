@@ -80,6 +80,12 @@
 			<version>3.7.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
 
 		<!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator-core -->
 		<dependency>

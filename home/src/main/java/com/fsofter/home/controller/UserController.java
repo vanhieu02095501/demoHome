@@ -41,7 +41,7 @@ public class UserController {
         return "user_form";
     }
 
-    @PostMapping("/confirm")
+    @PostMapping("/user/confirm")
     public String confirmUser(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "user_form"; // Nếu có lỗi, quay lại form nhập
@@ -83,7 +83,7 @@ public class UserController {
         return "redirect:/users"; // Chuyển về danh sách user
     }
 
-    @GetMapping("user/delete/{id}")
+    @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         try {
             userService.deleteUser(id);
