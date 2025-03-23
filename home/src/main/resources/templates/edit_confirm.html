@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <!-- Bootstrap 4 từ WebJars -->
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.2/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.6.2/js/bootstrap.bundle.min.js}"></script>
+
+</head>
+<body>
+
+    <div class="mx-auto p-4 border border-secondary rounded shadow-sm bg-light" style="max-width: 600px;">
+        <h2 class="bg-light">Xác nhận thông tin</h2>
+        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+        <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
+        <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
+        <p><strong>Password:</strong> <span th:text="${user.password}"></span></p>
+        <p><strong>Enabled:</strong> <span th:text="${user.enabled}"></span></p>
+
+        <form th:action="@{/user/update}" method="post">
+             <input type="hidden" th:field="${user.id}">
+            <input type="hidden" th:field="${user.email}">
+            <input type="hidden" th:field="${user.firstName}">
+            <input type="hidden" th:field="${user.lastName}">
+            <input type="hidden" th:field="${user.password}">
+            <input type="hidden" th:field="${user.enabled}">
+
+            <button type="submit" class="btn btn-success">OK</button>
+            <a th:href="@{/user/edit/{id}(id=${user.id})}" class="btn btn-danger">Cancel</a>
+        </form>
+    </div>
+
+
+
+</body>
+</html>

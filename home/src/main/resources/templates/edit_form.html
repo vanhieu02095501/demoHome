@@ -12,19 +12,21 @@
 <body>
 <div class="container-fluid">
     <div class="text-center">
-        <h2 class="btn-outline-primary">Add New User</h2>
+        <h2 class="btn-outline-primary">Edit User</h2>
     </div>
 
-    <form th:action="@{/confirm}" method="post" th:object="${user}"
+    <form th:action="@{/user/edit/confirm}" method="post" th:object="${user}"
           class="mx-auto p-4 border border-secondary rounded shadow-sm bg-light" style="max-width: 600px;">
 
         <h2 class="text-center text-primary mb-4">User Form</h2>
+
+        <input type="hidden" th:field="*{id}">
 
         <!-- Email -->
         <div class="mb-3">
             <label class="form-label fw-bold">Email:</label>
             <input type="email" name="email"  th:field="*{email}" class="form-control"
-                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" placeholder="Enter email" required minlength="8" maxlength="45" >
+                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" placeholder="Enter email" required minlength="8" maxlength="45" readonly >
             <div class="invalid-feedback" th:errors="*{email}"></div>
         </div>
 
@@ -47,7 +49,7 @@
         <!-- Password -->
         <div class="mb-3">
             <label class="form-label fw-bold">Password:</label>
-            <input type="password" name="password"  th:field="*{password}" class="form-control"
+            <input type="text" name="password"  th:field="*{password}" class="form-control"
                    th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" placeholder="Enter password" required minlength="2" maxlength="15">
             <div class="invalid-feedback" th:errors="*{password}"></div>
         </div>

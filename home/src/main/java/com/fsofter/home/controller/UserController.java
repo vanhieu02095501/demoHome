@@ -1,6 +1,7 @@
 package com.fsofter.home.controller;
 
 
+import com.fsofter.home.Exception.UserNotFoundException;
 import com.fsofter.home.model.User;
 import com.fsofter.home.service.UserService;
 import jakarta.validation.Valid;
@@ -9,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -59,5 +57,40 @@ public class UserController {
         return "redirect:/users"; // Chuyển về danh sách sau khi lưu
     }
 
+    @GetMapping("/user/edit/{id}")
+    public String showEditForm(@PathVariable("id") Integer id, Model model) throws UserNotFoundException {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            throw new UserNotFoundException("Không tìm thấy user với ID: " + id);
+        }
+        model.addAttribute("user", user);
+        return "edit_form"; // Trả về form cập nhật
+    }
 
+    @PostMapping("/user/edit/confirm")
+    public String confirmUpdate(@Valid @ModelAttribute("user") User user,
+                                BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "edit_form"; // Quay lại form nếu có lỗi
+        }
+        model.addAttribute("user", user);
+        return "edit_confirm"; // Chuyển đến trang xác nhận
+    }
+    @PostMapping("/user/update")
+    public String updateUser(@ModelAttribute("user") User user, RedirectAttributes redirectAttrs) throws UserNotFoundException {
+        userService.updateUser(user);
+        redirectAttrs.addFlashAttribute("message", "Cập nhật thành công!");
+        return "redirect:/users"; // Chuyển về danh sách user
+    }
+
+    @GetMapping("user/delete/{id}")
+    public String deleteUser(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            userService.deleteUser(id);
+            redirectAttributes.addFlashAttribute("message", "User "+id+" đã được xóa thành công!");
+        } catch (UserNotFoundException e) {
+            redirectAttributes.addFlashAttribute("error", "User "+id+" không tồn tại!");
+        }
+        return "redirect:/users";
+    }
 }

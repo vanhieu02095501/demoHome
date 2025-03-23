@@ -49,9 +49,12 @@
                        <a class="btn btn-success btn-sm me-2 px-3" th:href="@{'/user/edit/'+${user.id}}">
                            Edit
                        </a>
-                       <a class="btn btn-danger btn-sm px-3" th:href="@{'/user/delete/'+${user.id}}">
+                       <button type="button" class="btn btn-danger"
+                               onclick="showConfirmModal(this)"
+                               th:attr="data-id=${user.id}">
                            Delete
-                       </a>
+                       </button>
+
                    </td>
                </tr>
            </th:block>
@@ -96,15 +99,51 @@
     </div>
 </div>
 
+<!-- Modal Xác nhận xóa -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa user này không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">Cancel</span>
+                </button>
+
+                <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Xóa</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Script để tự động hiển thị modal nếu có message -->
 <script th:if="${message}">
     $(document).ready(function() {
         $('#successModal').modal('show');
         setTimeout(() => $('#successModal').modal('hide'), 90000); // Tự động đóng sau 3 giây
     });
+
 </script>
 
+<script>
 
+    function showConfirmModal(button) {
+        var userId = button.getAttribute("data-id");
+        var deleteUrl = "/user/delete/" + userId;
+
+        // Gán URL vào nút Xóa trong Modal
+        $("#confirmDeleteBtn").attr("href", deleteUrl);
+
+        // Hiển thị Modal (Bootstrap 4 dùng jQuery)
+        $('#confirmDeleteModal').modal('show');
+    }
+</script>
 
 </body>
 
