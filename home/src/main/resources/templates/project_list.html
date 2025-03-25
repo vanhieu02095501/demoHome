@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Management</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.2/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.6.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-secondary px-3">
+    <a class="navbar-brand text-white font-weight-bold h4 mb-0" href="#">Project Management</a>
+    <form th:action="@{/logout}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+</nav>
+
+<div class="container-fluid text-center">
+    <div class="row align-items-center mt-3">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form th:action="@{/projects}" method="get" class="form-inline d-flex">
+                <input type="text" name="keyword" th:value="${keyword}" class="form-control flex-grow-1 mr-2" placeholder="Search projects...">
+                <button type="submit" class="btn btn-primary px-4">Search</button>
+            </form>
+        </div>
+        <div class="col-md-3 text-md-right text-center mt-2 mt-md-0">
+            <a class="btn btn-success px-4" th:href="@{/projects/new}">Add New Project</a>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <table class="table table-hover table-striped table-bordered shadow-sm">
+            <thead class="thead-dark text-center">
+            <tr class="bg-primary text-white">
+                <th style="width: 10%;">Project ID</th>
+                <th style="width: 15%;">Project Name</th>
+                <th style="width: 10%;">Department</th>
+                <th style="width: 10%;">Difficulty</th>
+                <th style="width: 15%;">Created Date</th>
+                <th style="width: 15%;">Updated Date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="project: ${projects}">
+                <tr>
+                    <td class="text-center">[[${project.projectId}]]</td>
+                    <td>[[${project.projectNm}]]</td>
+                    <td>[[${project.deptName}]]</td>
+                    <td class="text-center">[[${project.difficulty}]]</td>
+                    <td class="text-center">[[${project.insTm}]]</td>
+                    <td class="text-center">[[${project.updTm}]]</td>
+                    <td class="text-center">
+                        <a class="btn btn-success btn-sm me-2 px-3" th:href="@{'/projects/edit/'+${project.projectId}}">Edit</a>
+                        <button type="button" class="btn btn-danger" onclick="showConfirmModal(this)" th:attr="data-id=${project.projectId}">Delete</button>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-center mt-3">
+            <nav class="justify-content-center">
+                <ul class="pagination">
+                    <li th:if="${currentPage > 0}" class="page-item">
+                        <a class="page-link" th:href="@{'/projects?page=' + ${currentPage - 1} + '&size=5&keyword=' + ${keyword}}">Previous</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item" th:classappend="${i == currentPage} ? 'active' : ''">
+                        <a class="page-link" th:href="@{'/projects?page=' + ${i} + '&size=5&keyword=' + ${keyword}}">[[${i + 1}]]</a>
+                    </li>
+                    <li th:if="${currentPage < totalPages - 1}" class="page-item">
+                        <a class="page-link" th:href="@{'/projects?page=' + ${currentPage + 1} + '&size=5&keyword=' + ${keyword}}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xác nhận xóa -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa project này không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">Cancel</button>
+                <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Xóa</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showConfirmModal(button) {
+        var projectId = button.getAttribute("data-id");
+        var deleteUrl = "/project/delete/" + projectId;
+        $("#confirmDeleteBtn").attr("href", deleteUrl);
+        $('#confirmDeleteModal').modal('show');
+    }
+</script>
+
+</body>
+</html>

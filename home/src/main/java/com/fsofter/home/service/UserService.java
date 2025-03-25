@@ -1,64 +1,57 @@
 package com.fsofter.home.service;
 
 
-import com.fsofter.home.Exception.UserNotFoundException;
-import com.fsofter.home.model.User;
-import com.fsofter.home.repository.UserRepository;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+
 public class UserService {
-
-    @Autowired
-    UserRepository userRepository ;
-
-    public List<User> getAll(){
-        List<User> results = userRepository.findAll();
-        return results;
-    }
-
-    public Page<User> searchUsers(String keyword, int page, int size) {
-        if (keyword == null || keyword.isEmpty()) {
-            return userRepository.findAll(PageRequest.of(page, size));
-        }
-        return userRepository.findByEmailContainingOrFirstNameContainingOrLastNameContaining(
-                keyword, keyword, keyword, PageRequest.of(page, size));
-    }
-
-    public User getUserById(Integer id) throws UserNotFoundException {
-        Optional<User> result = userRepository.findById(id);
-        if(result.isPresent()){
-            return result.get();
-        }
-        throw new UserNotFoundException("Could not find any users with id: "+id);
-    }
-
-    public void saveUser(@Valid User user){
-        userRepository.save(user);
-    }
-    public void updateUser(User user) throws UserNotFoundException {
-        User existingUser = getUserById(user.getId());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setFirstName(user.getFirstName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setEnabled(user.isEnabled());
-
-        userRepository.save(existingUser);
-    }
-
-    public void deleteUser(Integer id) throws UserNotFoundException {
-        if (!userRepository.existsById(id)) {
-            throw new UserNotFoundException("Could not find any users with id: "+id);
-        }
-        userRepository.deleteById(id);
-    }
+//
+//    @Autowired
+//    UserRepository userRepository ;
+//
+//    public List<User> getAll(){
+//        List<User> results = userRepository.findAll();
+//        return results;
+//    }
+//
+//    public Page<User> searchUsers(String keyword, int page, int size) {
+//        if (keyword == null || keyword.isEmpty()) {
+//            return userRepository.findAll(PageRequest.of(page, size));
+//        }
+//        return userRepository.findByEmailContainingOrFirstNameContainingOrLastNameContaining(
+//                keyword, keyword, keyword, PageRequest.of(page, size));
+//    }
+//
+//    public User getUserById(Integer id) throws UserNotFoundException {
+//        Optional<User> result = userRepository.findById(id);
+//        if(result.isPresent()){
+//            return result.get();
+//        }
+//        throw new UserNotFoundException("Could not find any users with id: "+id);
+//    }
+//
+//    public void saveUser(@Valid User user){
+//        userRepository.save(user);
+//    }
+//    public void updateUser(User user) throws UserNotFoundException {
+//        User existingUser = getUserById(user.getId());
+//        existingUser.setEmail(user.getEmail());
+//        existingUser.setFirstName(user.getFirstName());
+//        existingUser.setLastName(user.getLastName());
+//        existingUser.setPassword(user.getPassword());
+//        existingUser.setEnabled(user.isEnabled());
+//
+//        userRepository.save(existingUser);
+//    }
+//
+//    public void deleteUser(Integer id) throws UserNotFoundException {
+//        if (!userRepository.existsById(id)) {
+//            throw new UserNotFoundException("Could not find any users with id: "+id);
+//        }
+//        userRepository.deleteById(id);
+//    }
 
 }
