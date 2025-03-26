@@ -1,7 +1,11 @@
 package com.fsofter.home.controller;
 
 import com.fsofter.home.dto.ProjectDTO;
+import com.fsofter.home.model.Project;
 import com.fsofter.home.service.ProjectService;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +23,7 @@ public class ProjectController {
     private ProjectService projectService;
 
     @GetMapping
-    public String listProjects(@RequestParam(required = false) String keyword,
+    public String listProjects(@RequestParam(defaultValue = "") String keyword,
                                @RequestParam(defaultValue = "1") int page,
                                @RequestParam(defaultValue = "5") int size,
                                Model model) {
@@ -33,5 +37,8 @@ public class ProjectController {
 
         return "project_list";
     }
+
+
+
 
 }

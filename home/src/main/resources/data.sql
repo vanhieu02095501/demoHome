@@ -39,3 +39,8 @@ VALUES
     ('Project Iota', 1, 'B', 1),
     ('Project Kappa', 2, 'C', 1);
 
+INSERT INTO users (username, password, role)
+VALUES ('admin@example.com', '$2a$10$8V.cJGvF2T8bYl06.PJqQO/xt7BYZPRys8gzK5E1E5i4DykUwWq/O', 'ROLE_ADMIN');
+
+INSERT INTO users (username, password, role)
+VALUES ('user@example.com', '$2a$10$K2LP6G92zD.f/sd2QqRxC.joOE0x4ueTtZ0j8aPbyvT2FJWB0f.eO', 'ROLE_USER');
